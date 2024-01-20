@@ -1,54 +1,58 @@
 import { Sequelize } from "sequelize";
-import db from "../config/Database.js"
-import Category from "./Category.js";
+import db from "../config/Database.js";
 
-const {DataTypes} = Sequelize;
+const { DataTypes } = Sequelize;
 
-const Book = db.define('books', {
+const Book = db.define("books", {
   id: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
   title: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   description: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
+    allowNull: false,
   },
-  imageUrl: {
-    type: Sequelize.STRING,
+  image_url: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
-  releaseYear: {
-    type: Sequelize.INTEGERS,
+  release_year: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
   },
   price: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
+    allowNull: false,
   },
-  totalPage: {
-    type: Sequelize.INTEGER,
+  total_page: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
   },
   thickness: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
+    allowNull: true,
   },
-  createdAt: {
-    type: Sequelize.DATE,
+  created_at: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
   },
-  updatedAt: {
-    type: Sequelize.DATE,
+  updated_at: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
   },
-  categoryId: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: Category,
-      key: 'id',
-    },
+  category_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
   },
 });
 
-export default Category;
+export default Book;
 
-(
-  async()=>{
-      await db.sync();
-  })();
+(async () => {
+  await db.sync();
+})();
