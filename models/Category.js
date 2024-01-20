@@ -1,26 +1,27 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js"
 
-const {DataTypes} = Sequelize;
+const { DataTypes } = Sequelize;
 
 const Category = db.define('categories', {
   id: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
   name: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
   },
   createdAt: {
-    type: Sequelize.DATE,
+    type: DataTypes.DATE,
   },
   updatedAt: {
-    type: Sequelize.DATE
-}});
+    type: DataTypes.DATE
+  }
+});
 export default Category;
 
 (
-  async()=>{
-      await db.sync();
+  async () => {
+    await db.sync();
   })();
