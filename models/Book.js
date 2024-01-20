@@ -37,22 +37,23 @@ const Book = db.define("books", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  created_at: {
-    type: DataTypes.DATE,
+  createdAt: {
+    type: DataTypes.TIME,
     defaultValue: DataTypes.NOW,
   },
-  updated_at: {
-    type: DataTypes.DATE,
+  updatedAt: {
+    type: DataTypes.TIME,
     defaultValue: DataTypes.NOW,
   },
   category_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-  },
+  }
 });
 
 export default Book;
 
-(async () => {
-  await db.sync();
-})();
+(
+  async () => {
+    await db.sync();
+  })();

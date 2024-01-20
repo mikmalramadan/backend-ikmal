@@ -4,19 +4,15 @@ import db from "../config/Database.js"
 const { DataTypes } = Sequelize;
 
 const Category = db.define('categories', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
+
   name: {
     type: DataTypes.STRING,
   },
   createdAt: {
-    type: DataTypes.DATE,
+    type: DataTypes.TIME,
   },
   updatedAt: {
-    type: DataTypes.DATE
+    type: DataTypes.TIME
   }
 });
 export default Category;

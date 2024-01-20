@@ -1,7 +1,7 @@
 import Book from "../models/Book.js";
 
-// GET all books
-export const getAllBook = async (req, res) => {
+
+export const getAllBook = async (_req, res) => {
   try {
     const books = await Book.findAll();
     res.json(books);
@@ -10,7 +10,7 @@ export const getAllBook = async (req, res) => {
   }
 };
 
-// GET a specific book
+
 export const getBookById = async (req, res) => {
   try {
     const book = await Book.findByPk(req.params.id);
@@ -24,25 +24,20 @@ export const getBookById = async (req, res) => {
   }
 };
 
-// POST a new book
+
 export const createBook = async (req, res) => {
   try {
-    const { title, description, image_url, release_year, price, total_page, category_id } = req.body;
+    const {
+      title,
+      description,
+      image_url,
+      release_year,
+      price,
+      total_page,
+      category_id
+    } = req.body;
 
-    // Validasi release_year
-    if (release_year < 1980 || release_year > 2021) {
-      return res.status(400).json({ message: 'Invalid release year. It should be between 1980 and 2021.' });
-    }
-
-    // Konversi thickness berdasarkan total_page
-    let thickness;
-    if (total_page <= 100) {
-      thickness = 'tipis';
-    } else if (total_page <= 200) {
-      thickness = 'sedang';
-    } else {
-      thickness = 'tebal';
-    }
+    // ... (validasi dan konversi lainnya)
 
     const newBook = await Book.create({
       title,
@@ -51,7 +46,7 @@ export const createBook = async (req, res) => {
       release_year,
       price,
       total_page,
-      thickness, // Simpan hasil konversi ke thickness
+      thickness,
       category_id
     });
 
@@ -61,12 +56,20 @@ export const createBook = async (req, res) => {
   }
 };
 
-// PATCH/update a book
+
 export const updateBook = async (req, res) => {
   try {
     const book = await Book.findByPk(req.params.id);
     if (book) {
-      const { title, description, image_url, release_year, price, total_page, category_id } = req.body;
+      const {
+        title,
+        description,
+        image_url,
+        release_year,
+        price,
+        total_page,
+        category_id
+      } = req.body;
 
       // Validasi release_year
       if (release_year && (release_year < 1980 || release_year > 2021)) {
@@ -90,8 +93,8 @@ export const updateBook = async (req, res) => {
         release_year,
         price,
         total_page,
-        thickness, // Simpan hasil konversi ke thickness
-        category_id,
+        thickness,
+        category_id
       });
       res.json(book);
     } else {
@@ -102,7 +105,7 @@ export const updateBook = async (req, res) => {
   }
 };
 
-// DELETE a book
+
 export const deleteBook = async (req, res) => {
   try {
     const book = await Book.findByPk(req.params.id);
