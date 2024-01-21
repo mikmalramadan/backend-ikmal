@@ -1,7 +1,7 @@
 import Book from "../models/Book.js";
 
 
-export const getAllBook = async (_req, res) => {
+export const getAllBook = async (req, res) => {
   try {
     const books = await Book.findAll();
     res.json(books);
@@ -26,6 +26,7 @@ export const getBookById = async (req, res) => {
 
 
 export const createBook = async (req, res) => {
+  console.log(res)
   try {
     const {
       title,
@@ -37,13 +38,26 @@ export const createBook = async (req, res) => {
       category_id
     } = req.body;
 
-    // ... (validasi dan konversi lainnya)
+
+    if (!release_year || release_year < 1980 || release_year > 2021) {
+      return res.status(400).json({ message: 'Invalid release year. It should be between 1980 and 2021.' });
+    }
+
+
+    let thickness;
+    if (total_page <= 100) {
+      thickness = 'tipis';
+    } else if (total_page <= 200) {
+      thickness = 'sedang';
+    } else {
+      thickness = 'tebal';
+    }
 
     const newBook = await Book.create({
       title,
       description,
       image_url,
-      release_year,
+      release_year: parseInt(release_year),
       price,
       total_page,
       thickness,
@@ -71,12 +85,10 @@ export const updateBook = async (req, res) => {
         category_id
       } = req.body;
 
-      // Validasi release_year
       if (release_year && (release_year < 1980 || release_year > 2021)) {
         return res.status(400).json({ message: 'Invalid release year. It should be between 1980 and 2021.' });
       }
 
-      // Konversi thickness berdasarkan total_page
       let thickness;
       if (total_page <= 100) {
         thickness = 'tipis';
@@ -90,7 +102,7 @@ export const updateBook = async (req, res) => {
         title,
         description,
         image_url,
-        release_year,
+        release_year: (parseInt(release_year)),
         price,
         total_page,
         thickness,

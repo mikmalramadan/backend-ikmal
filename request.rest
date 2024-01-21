@@ -1,0 +1,23 @@
+GET http://localhost:5000/categories/
+
+###
+POST http://localhost:5000/books
+Content-Type: application/json
+
+{
+  "title": "sekai",
+  "price": "30",
+  "release_year": "1999",
+  "description": "alkdsjfla kf ka jfk fkad ",
+  "total_page": "444",
+  "category_id": "14"
+}
+
+###
+POST http://localhost:5000/categories
+Content-Type: application/json
+
+{
+  "name": "udin",
+
+}
