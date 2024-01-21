@@ -3,8 +3,8 @@ import Book from "../models/Book.js";
 
 export const getAllBook = async (req, res) => {
   try {
-    const books = await Book.findAll();
-    res.json(books);
+    const book = await Book.findAll();
+    res.json(book)
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -26,7 +26,7 @@ export const getBookById = async (req, res) => {
 
 
 export const createBook = async (req, res) => {
-  console.log(res)
+  console.log(req)
   try {
     const {
       title,
@@ -35,14 +35,8 @@ export const createBook = async (req, res) => {
       release_year,
       price,
       total_page,
-      category_id
+      category_id,
     } = req.body;
-
-
-    if (!release_year || release_year < 1980 || release_year > 2021) {
-      return res.status(400).json({ message: 'Invalid release year. It should be between 1980 and 2021.' });
-    }
-
 
     let thickness;
     if (total_page <= 100) {
@@ -53,11 +47,16 @@ export const createBook = async (req, res) => {
       thickness = 'tebal';
     }
 
+    const parsedReleaseYear = parseInt(release_year);
+    if (!Number.isInteger(parsedReleaseYear) || parsedReleaseYear < 1980 || parsedReleaseYear > 2021) {
+      return res.status(400).json({ message: 'Invalid release year. Please enter a year between 1980 and 2021.' });
+    }
+
     const newBook = await Book.create({
       title,
       description,
       image_url,
-      release_year: parseInt(release_year),
+      release_year,
       price,
       total_page,
       thickness,
@@ -102,7 +101,7 @@ export const updateBook = async (req, res) => {
         title,
         description,
         image_url,
-        release_year: (parseInt(release_year)),
+        release_year,
         price,
         total_page,
         thickness,
