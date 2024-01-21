@@ -3,10 +3,25 @@ import Book from "../models/Book.js";
 
 export const getAllBook = async (req, res) => {
   try {
-    const book = await Book.findAll();
-    res.json(book)
+    const { page = 1, limit = 10, category_id } = req.query;
+    const offset = (page - 1) * limit;
+
+    let whereCondition = {};
+
+    if (category_id) {
+      whereCondition.category_id = category_id;
+    }
+
+    const books = await Book.findAll({
+      offset,
+      limit: parseInt(limit),
+      where: whereCondition,
+    });
+
+    res.json(books);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
@@ -56,7 +71,7 @@ export const createBook = async (req, res) => {
       title,
       description,
       image_url,
-      release_year,
+      release_year: parsedReleaseYear,
       price,
       total_page,
       thickness,
